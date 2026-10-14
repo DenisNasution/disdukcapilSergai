@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class PenilaianModel extends Model
+{
+     protected $table = 'tb_penilaian';
+    protected $primaryKey = 'penilaian_id'; // If your primary key is not 'id', change this
+    protected $allowedFields = ['penilaian_id, penilaian_name'];
+
+    public function getPenilaianWithList($id)
+{
+    // 1. Find the main item
+    $item = $this->find($id);
+
+    // 2. If item exists, get its related list
+    if ($item) {
+        $item['list_items'] = $this->db->table('tb_penilaian_list')
+        ->where('penilaian_id', $id)
+        ->get()
+        ->getResultArray();
+    }
+
+    return $item; // Returns the item WITH the list attached to it
+}
+}
+
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class PenilaianModel extends Model
+{
+     protected $table = 'tb_penilaian';
+    protected $primaryKey = 'penilaian_id'; // If your primary key is not 'id', change this
+    protected $allowedFields = ['penilaian_id, penilaian_name'];
+
+    public function getPenilaianWithList($id)
+    {
+        // Assumes tb_penilaian_list has a column named 'penilaian_id'
+        return $this->db->table('tb_penilaian_list')
+                        ->where('penilaian_id', $id)
+                        ->get()
+                        ->getResultArray();
+    }
+}
